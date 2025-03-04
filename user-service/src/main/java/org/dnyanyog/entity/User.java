@@ -1,100 +1,163 @@
 package org.dnyanyog.entity;
 
-import java.time.LocalDate;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.time.LocalDate;
+import org.springframework.stereotype.Component;
 
-public class User {  
-	 private Long  userId ; 
-	 @Column(name ="name")
-	private String name;  
-	  @Column ( name = "username")
-	private String userName;  
-	@Column(name ="password")
-	private String password; 
-	 @Column(name="pass_expiry_date")
-	private LocalDate passwordExpiryDate; 
-	 @Column(name="userrole")
-	private String userRole; 
-	 @Column(name="user_status")
-	private String userStatus; 
-	 @Column(name="tenand_id")
-	private String tenatId; 
-     @Column(name="tenant")
-	private String tenant; 
-	 @Column(name="department")
-	private String department;
+@Entity
+@Table(name = "User_Management")
+@Component
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class User {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long userId;
 
-	public String getName() {
-		return name;
-	}
+  @Column(name = "name")
+  private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  @Column(name = "username")
+  private String userName;
 
-	public String getUserName() {
-		return userName;
-	}
+  @Column(name = "password")
+  private String password;
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  @Column(name = "confirm_password")
+  private String confirmPassword;
 
-	public String getPassword() {
-		return password;
-	}
+  @Column(name = "new_password")
+  private String newPassword;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  @Column(name = "pass_expiry_date")
+  private LocalDate passwordExpiryDate;
 
-	public LocalDate getPasswordExpiryDate() {
-		return passwordExpiryDate;
-	}
+  @Column(name = "userrole")
+  private String userRole;
 
-	public void setPasswordExpiryDate(LocalDate passwordExpiryDate) {
-		this.passwordExpiryDate = passwordExpiryDate;
-	}
+  @Column(name = "user_status")
+  private String userStatus;
 
-	public String getUserRole() {
-		return userRole;
-	}
+  @Column(name = "tenand_id")
+  private String tenatId;
 
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
-	}
+  @Column(name = "tenant")
+  private String tenant;
 
-	public String getUserStatus() {
-		return userStatus;
-	}
+  @Column(name = "department")
+  private String department;
 
-	public void setUserStatus(String userStatus) {
-		this.userStatus = userStatus;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public String getTenatId() {
-		return tenatId;
-	}
+  public User setName(String name) {
+    this.name = name;
+    return this;
+  }
 
-	public void setTenatId(String tenatId) {
-		this.tenatId = tenatId;
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public String getTenant() {
-		return tenant;
-	}
+  public User setUserName(String userName) {
+    this.userName = userName;
+    return this;
+  }
 
-	public void setTenant(String tenant) {
-		this.tenant = tenant;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public String getDepartment() {
-		return department;
-	}
+  public User setPassword(String password) {
+    this.password = password;
+    return this;
+  }
 
-	public void setDepartment(String department) {
-		this.department = department;
-	}
+  public LocalDate getPasswordExpiryDate() {
+    return passwordExpiryDate;
+  }
 
+  public User setPasswordExpiryDate(LocalDate passwordExpiryDate) {
+    this.passwordExpiryDate = passwordExpiryDate;
+    return this;
+  }
+
+  public String getUserRole() {
+    return userRole;
+  }
+
+  public User setUserRole(String userRole) {
+    this.userRole = userRole;
+    return this;
+  }
+
+  public String getUserStatus() {
+    return userStatus;
+  }
+
+  public User setUserStatus(String userStatus) {
+    this.userStatus = userStatus;
+    return this;
+  }
+
+  public String getTenatId() {
+    return tenatId;
+  }
+
+  public User setTenatId(String tenatId) {
+    this.tenatId = tenatId;
+    return this;
+  }
+
+  public String getTenant() {
+    return tenant;
+  }
+
+  public User setTenant(String tenant) {
+    this.tenant = tenant;
+    return this;
+  }
+
+  public String getDepartment() {
+    return department;
+  }
+
+  public User setDepartment(String department) {
+    this.department = department;
+    return this;
+  }
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+
+  public String getConfirmPassword() {
+    return confirmPassword;
+  }
+
+  public void setConfirmPassword(String confirmPassword) {
+    this.confirmPassword = confirmPassword;
+  }
+
+  public String getNewPassword() {
+    return newPassword;
+  }
+
+  public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
+  }
+
+  public static User getInstance() {
+    return new User();
+  }
 }
