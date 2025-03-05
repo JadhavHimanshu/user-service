@@ -40,7 +40,13 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse findByuserId(@Valid Long userId) {
-    // TODO Auto-generated method stub
+    Optional<User> userData = this.repo.findByuserId(userId);
+    if (userData.isPresent()) {
+      return UserMapper.toDto(
+          userData.get(),
+          ResponseCode.Search_User.getMessage(),
+          ResponseCode.Search_User.getCode());
+    }
     return null;
   }
 
