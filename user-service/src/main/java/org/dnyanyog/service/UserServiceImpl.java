@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.dnyanyog.common.ResponseCode;
+import org.dnyanyog.dto.InventoryResponse;
 import org.dnyanyog.dto.UserRequest;
 import org.dnyanyog.dto.UserResponse;
+import org.dnyanyog.entity.Inventory;
 import org.dnyanyog.entity.User;
 import org.dnyanyog.mapper.UserMapper;
 import org.dnyanyog.repositories.UserRepo;
@@ -58,7 +60,13 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserResponse deleteByuserId(Long userId) {
-    // TODO Auto-generated method stub
-    return null;
+	  UserResponse response = new UserResponse();
+	    Optional<User> inventoryData = this.repo.findByProductId(userId);
+	    if (inventoryData.isPresent()) {
+	      int rowDeleted = repo.deleteByuserId(userId);
+	      if (rowDeleted > 0) {
+	        response.setMessage(ResponseCode.Delete_User.getMessage());
+	        response.setCode(ResponseCode.Delete_User.getCode());
+   
   }
 }
