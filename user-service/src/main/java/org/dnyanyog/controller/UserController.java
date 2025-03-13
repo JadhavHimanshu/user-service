@@ -47,7 +47,6 @@ public class UserController {
     List<UserResponse> users = userService.getAllUsers(request);
     return ResponseEntity.ok(users);
   }
-  ;
 
   @DeleteMapping(path = "/api/v1/user/user_delete/{userId}")
   public UserResponse deleteUser(@Valid @PathVariable Long userId) {
