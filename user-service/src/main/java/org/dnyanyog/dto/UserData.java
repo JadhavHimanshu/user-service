@@ -9,10 +9,10 @@ public class UserData {
   @NotNull(message = "Id should not be null")
   private Long userId;
 
-  @NotBlank(message = "User Name is Mandatory")
+  @NotBlank(message = "UserName is Mandatory")
   private String name;
 
-  @NotBlank(message = "User Name is Mandatory")
+  @NotBlank(message = "UserName is Mandatory")
   @Pattern(
       regexp = "^[a-zA-Z0-9._-]{3,30}$",
       message =
