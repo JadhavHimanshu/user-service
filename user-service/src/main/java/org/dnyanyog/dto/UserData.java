@@ -15,7 +15,7 @@ public class UserData {
   @NotBlank(message = "UserName is Mandatory")
   @Pattern(
       regexp = "^[a-zA-Z0-9._-]{3,30}$",
-      message =
+      message = 
           "Username must be 3-30 characters long and can contain letters, numbers, dots, underscores, and hyphens.")
   @Size(min = 3, max = 50, message = "Name must between 3 to 50 characters ")
   private String userName;
@@ -36,13 +36,13 @@ public class UserData {
       message = "Password expiry must be in YYYY-MM-DD format")
   private String passwordExpiry;
 
-  @NotBlank(message = "User Role is mandatory")
+  @NotBlank(message = " Role is mandatory")
   private String userRole;
 
   @NotBlank(message = "User Status is mandatory")
   private String userStatus;
 
-  @NotBlank(message = "Tenant ID is mandatory")
+  @NotBlank(message = "TenantId is mandatory")
   private String tenatId;
 
   @NotBlank(message = "Tenant is mandatory")
