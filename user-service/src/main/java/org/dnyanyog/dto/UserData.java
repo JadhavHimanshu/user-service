@@ -15,7 +15,7 @@ public class UserData {
   @NotBlank(message = "UserName is Mandatory")
   @Pattern(
       regexp = "^[a-zA-Z0-9._-]{3,30}$",
-      message = 
+      message =
           "Username must be 3-30 characters long and can contain letters, numbers, dots, underscores, and hyphens.")
   @Size(min = 3, max = 50, message = "Name must between 3 to 50 characters ")
   private String userName;
