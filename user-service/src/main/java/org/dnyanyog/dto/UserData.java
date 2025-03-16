@@ -6,13 +6,13 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class UserData {
-  @NotNull(message = "Id should not be null")
+  // @NotNull(message = "Id should not be null")
   private Long userId;
 
   @NotBlank(message = "UserName is Mandatory")
   private String name;
 
-  @NotBlank(message = "UserName is Mandatory")
+  @NotNull(message = "UserName is Mandatory")
   @Pattern(
       regexp = "^[a-zA-Z0-9._-]{3,30}$",
       message =
@@ -42,8 +42,8 @@ public class UserData {
   @NotBlank(message = "User Status is mandatory")
   private String userStatus;
 
-  @NotBlank(message = "TenantId is mandatory")
-  private String tenatId;
+  // @NotBlank(message = "TenantId is mandatory")
+  private String tenantId;
 
   @NotBlank(message = "Tenant is mandatory")
   private String tenant;
@@ -108,11 +108,11 @@ public class UserData {
   }
 
   public String getTenatId() {
-    return tenatId;
+    return tenantId;
   }
 
-  public void setTenatId(String tenatId) {
-    this.tenatId = tenatId;
+  public void setTenatId(String tenantId) {
+    this.tenantId = tenantId;
   }
 
   public String getTenant() {
