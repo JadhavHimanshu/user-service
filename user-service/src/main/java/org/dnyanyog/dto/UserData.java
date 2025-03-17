@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class UserData {
-  // @NotNull(message = "Id should not be null")
   private Long userId;
 
   @NotBlank(message = "UserName is Mandatory")
@@ -42,7 +41,7 @@ public class UserData {
   @NotBlank(message = "User Status is mandatory")
   private String userStatus;
 
-  // @NotBlank(message = "TenantId is mandatory")
+  @NotBlank(message = "TenantId is mandatory")
   private String tenantId;
 
   @NotBlank(message = "Tenant is mandatory")
@@ -107,11 +106,11 @@ public class UserData {
     this.userStatus = userStatus;
   }
 
-  public String getTenatId() {
+  public String getTenantId() {
     return tenantId;
   }
 
-  public void setTenatId(String tenantId) {
+  public void setTenantId(String tenantId) {
     this.tenantId = tenantId;
   }
 

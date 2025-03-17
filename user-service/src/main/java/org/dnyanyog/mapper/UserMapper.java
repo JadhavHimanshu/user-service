@@ -15,7 +15,7 @@ public class UserMapper {
         .setUserRole(userRequest.getUserRole())
         .setUserStatus(userRequest.getUserStatus())
         .setTenant(userRequest.getTenant())
-        .setTenatId(userRequest.getTenatId())
+        .setTenantId(userRequest.getTenantId())
         .setDepartment(userRequest.getDepartment());
   }
 
@@ -31,7 +31,7 @@ public class UserMapper {
     response.setUserStatus(user.getUserStatus());
     response.setTenant(user.getTenant());
     response.setDepartment(user.getDepartment());
-    response.setTenantId(user.getTenatId());
+    response.setTenantId(user.getTenantId());
     return response;
   }
 }

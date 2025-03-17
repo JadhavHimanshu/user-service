@@ -19,4 +19,8 @@ public interface UserService {
   public List<UserResponse> getAllUsers(UserRequest request);
 
   public UserResponse deleteByuserId(Long userId);
+
+  public boolean validateUser(String userName, String password);
+
+  public boolean changePassword(String userName, String currentPassword, String newPassword);
 }

@@ -1,5 +1,6 @@
 package org.dnyanyog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,9 +17,10 @@ import org.springframework.stereotype.Component;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long userId;
 
+  @JsonIgnore
   @Column(name = "name")
   private String name;
 
@@ -34,21 +36,27 @@ public class User {
   @Column(name = "new_password")
   private String newPassword;
 
+  @JsonIgnore
   @Column(name = "pass_expiry_date")
   private LocalDate passwordExpiryDate;
 
+  @JsonIgnore
   @Column(name = "userrole")
   private String userRole;
 
+  @JsonIgnore
   @Column(name = "user_status")
   private String userStatus;
 
-  @Column(name = "tenand_id")
-  private String tenatId;
+  @JsonIgnore
+  @Column(name = "tenant_id")
+  private String tenantId;
 
+  @JsonIgnore
   @Column(name = "tenant")
   private String tenant;
 
+  @JsonIgnore
   @Column(name = "department")
   private String department;
 
@@ -106,12 +114,12 @@ public class User {
     return this;
   }
 
-  public String getTenatId() {
-    return tenatId;
+  public String getTenantId() {
+    return tenantId;
   }
 
-  public User setTenatId(String tenatId) {
-    this.tenatId = tenatId;
+  public User setTenantId(String tenantId) {
+    this.tenantId = tenantId;
     return this;
   }
 

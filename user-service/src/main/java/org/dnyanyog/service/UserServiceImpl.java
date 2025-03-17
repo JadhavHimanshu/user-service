@@ -38,6 +38,32 @@ public class UserServiceImpl implements UserService {
     return response;
   }
 
+  public boolean changePassword(String userName, String currentPassword, String newPassword) {
+    Optional<User> optionalUser = repo.findByUserName(userName);
+
+    if (optionalUser.isPresent()) {
+      User existingUser = optionalUser.get();
+
+      // Check if current password matches
+      if (existingUser.getPassword().equals(currentPassword)) {
+        existingUser.setPassword(newPassword); // Update password
+        repo.save(existingUser); // Save updated user data
+        return true; // Success
+      }
+    }
+
+    return false; // If user not found or password mismatch
+  }
+
+  public boolean validateUser(String userName, String password) {
+    Optional<User> user = repo.findByUserName(userName);
+
+    if (user.isPresent() && user.get().getPassword().equals(password)) {
+      return true;
+    }
+    return false;
+  }
+
   @Override
   public UserResponse findByuserId(@Valid Long userId) {
     Optional<User> userData = this.repo.findByuserId(userId);
