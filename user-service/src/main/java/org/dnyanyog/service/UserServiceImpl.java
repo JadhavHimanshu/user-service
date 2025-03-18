@@ -43,16 +43,14 @@ public class UserServiceImpl implements UserService {
 
     if (optionalUser.isPresent()) {
       User existingUser = optionalUser.get();
-
-      // Check if current password matches
       if (existingUser.getPassword().equals(currentPassword)) {
-        existingUser.setPassword(newPassword); // Update password
-        repo.save(existingUser); // Save updated user data
-        return true; // Success
+        existingUser.setPassword(newPassword);
+        repo.save(existingUser);
+        return true;
       }
     }
 
-    return false; // If user not found or password mismatch
+    return false;
   }
 
   public boolean validateUser(String userName, String password) {

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
   @Autowired private UserService userService;
 
-  @CrossOrigin(origins = "http://localhost:5175")
+  @CrossOrigin(origins = "http://localhost:5174")
   @PostMapping(
       path = "/api/v1/auth/user",
       consumes = {"application/json", "application/xml"},
@@ -39,6 +39,7 @@ public class UserController {
     }
   }
 
+  @CrossOrigin(origins = "http://localhost:5174")
   @PostMapping("/api/v1/auth/login")
   public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
     boolean isValid =
@@ -57,7 +58,8 @@ public class UserController {
     return ResponseEntity.ok(response);
   }
 
-  @PostMapping("/change_password")
+  @CrossOrigin(origins = "http://localhost:5174")
+  @PostMapping("/api/v1/auth/change_password")
   public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
 
     if (!request.getNewPassword().equals(request.getConfirmPassword())) {
