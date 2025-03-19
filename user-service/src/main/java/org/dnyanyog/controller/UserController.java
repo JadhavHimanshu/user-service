@@ -78,7 +78,7 @@ public class UserController {
           .body("Invalid username or current password.");
     }
   }
-
+  @CrossOrigin(origins = "http://localhost:5174")
   @GetMapping(
       path = "/api/v1/auth/users",
       produces = {"application/json", "application/xml"})
