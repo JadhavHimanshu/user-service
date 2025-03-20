@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 @Component
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
   @Autowired private UserService userService;
 
-  @CrossOrigin(origins = "http://localhost:5174")
   @PostMapping(
       path = "/api/v1/auth/user",
       consumes = {"application/json", "application/xml"},
@@ -39,7 +39,6 @@ public class UserController {
     }
   }
 
-  @CrossOrigin(origins = "http://localhost:5174")
   @PostMapping("/api/v1/auth/login")
   public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
     boolean isValid =
@@ -58,7 +57,6 @@ public class UserController {
     return ResponseEntity.ok(response);
   }
 
-  @CrossOrigin(origins = "http://localhost:5174")
   @PostMapping("/api/v1/auth/change_password")
   public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
 
@@ -78,7 +76,7 @@ public class UserController {
           .body("Invalid username or current password.");
     }
   }
-  @CrossOrigin(origins = "http://localhost:5174")
+
   @GetMapping(
       path = "/api/v1/auth/users",
       produces = {"application/json", "application/xml"})
