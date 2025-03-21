@@ -1,60 +1,60 @@
 package org.dnyanyog.utilis;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
-  private String SECRET_KEY = "h2enQiJKDf4VGCbjMAb3GeH5P+hIf5u+ljoseOAcNh0=";
-  private static final long EXPIRATION_TIME = 86400000;
 
-  public String generateTikens(String username) {
-    return Jwts.builder()
-        .setSubject(username)
-        .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-        .signWith(getSigninKey(), SignatureAlgorithm.HS512)
-        .compact();
-  }
+  @Value("${jwt.secret}") // Ensure this is defined in application.properties or application.yml
+  private static String secretKey;
 
   public String extractUserName(String token) {
-    return Jwts.parserBuilder()
-        .setSigningKey(getSigninKey())
-        .build()
-        .parseClaimsJws(token)
-        .getBody()
-        .getSubject();
+    return extractClaim(token, Claims::getSubject);
   }
 
-  //  public Date ectractExpiration(String token) {
-  //    return extractAllClaims(token).getExpiration();
-  //  }
-  //   public Claims extractAllClaims (String token ) {
-  //	    return Jwts.parser()
-  //
-  //
-  //
-  //   } '
-  private boolean validateToken(String token, String username) {
-    return extractUserName(token).equals(username) && !isTokenExpired(token);
+  public Date extractExpiration(String token) {
+    return extractClaim(token, Claims::getExpiration);
+  }
+
+  public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    Claims claims = extractAllClaims(token);
+    return claimsResolver.apply(claims);
+  }
+
+  private Claims extractAllClaims(String token) {
+    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
   }
 
   private boolean isTokenExpired(String token) {
-    Date expiration =
-        Jwts.parserBuilder()
-            .setSigningKey(getSigninKey())
-            .build()
-            .parseClaimsJws(token)
-            .getBody()
-            .getExpiration();
-    return expiration.before(new Date());
+    return extractExpiration(token).before(new Date());
   }
 
-  private Key getSigninKey() {
-    return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+  public boolean validateToken(String token, String username) {
+    String extractedUsername = extractUserName(token);
+    return (extractedUsername.equals(username) && !isTokenExpired(token));
+  }
+
+  public static String generateToken(String username) {
+    Map<String, Object> claims = new HashMap<>();
+    return createToken(claims, username);
+  }
+
+  private static String createToken(Map<String, Object> claims, String subject) {
+    return Jwts.builder()
+        .setClaims(claims)
+        .setSubject(subject)
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(
+            new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // Token valid for 10 hours
+        .signWith(SignatureAlgorithm.HS256, secretKey)
+        .compact();
   }
 }

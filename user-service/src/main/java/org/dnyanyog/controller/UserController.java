@@ -1,5 +1,6 @@
 package org.dnyanyog.controller;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.dnyanyog.dto.ChangePasswordRequest;
@@ -7,6 +8,7 @@ import org.dnyanyog.dto.LoginRequest;
 import org.dnyanyog.dto.UserRequest;
 import org.dnyanyog.dto.UserResponse;
 import org.dnyanyog.service.UserService;
+import org.dnyanyog.utilis.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Component
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
+  @Autowired private JwtUtil jwtUtil;
+
   @Autowired private UserService userService;
 
   @PostMapping(
@@ -41,12 +45,24 @@ public class UserController {
 
   @PostMapping("/api/v1/auth/login")
   public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+    System.out.println("Received Request: " + loginRequest);
+
     boolean isValid =
         userService.validateUser(loginRequest.getUserName(), loginRequest.getPassword());
 
     if (isValid) {
-      return ResponseEntity.ok("Login successful");
+      try {
+        // ✅ Use the injected `jwtUtil` instance correctly
+        String token = jwtUtil.generateToken(loginRequest.getUserName());
+        System.out.println("Generated Token: " + token);
+        return ResponseEntity.ok().body(token);
+      } catch (JwtException e) {
+        System.err.println("JWT Token Generation Error: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body("Error generating token. Please try again.");
+      }
     } else {
+      System.err.println("Invalid Credentials for User: " + loginRequest.getUserName());
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
   }
@@ -77,9 +93,8 @@ public class UserController {
     }
   }
 
-  @GetMapping(
-      path = "/api/v1/auth/users",
-      produces = {"application/json", "application/xml"})
+  @GetMapping(path = "/api/v1/auth/users")
+  //   produces = {"application/json", "application/xml"})
   public ResponseEntity<List<UserResponse>> getAllUsers(@RequestBody UserRequest request) {
     List<UserResponse> users = userService.getAllUsers(request);
     return ResponseEntity.ok(users);
