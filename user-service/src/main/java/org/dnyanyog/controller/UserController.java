@@ -52,7 +52,6 @@ public class UserController {
 
     if (isValid) {
       try {
-        // ✅ Use the injected `jwtUtil` instance correctly
         String token = jwtUtil.generateToken(loginRequest.getUserName());
         System.out.println("Generated Token: " + token);
         return ResponseEntity.ok().body(token);
@@ -84,7 +83,6 @@ public class UserController {
     boolean isPasswordUpdated =
         userService.changePassword(
             request.getUserName(), request.getPassword(), request.getNewPassword());
-
     if (isPasswordUpdated) {
       return ResponseEntity.ok("Password updated successfully.");
     } else {
