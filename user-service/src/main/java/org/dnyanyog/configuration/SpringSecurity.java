@@ -1,4 +1,4 @@
-package org.dnayanyog.configuration;
+package org.dnyanyog.configuration;
 
 import org.dnyanyog.filter.JwtFilter;
 import org.springframework.context.annotation.Bean;

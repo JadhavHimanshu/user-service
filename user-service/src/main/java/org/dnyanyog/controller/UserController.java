@@ -92,7 +92,6 @@ public class UserController {
   }
 
   @GetMapping(path = "/api/v1/auth/users")
-  //   produces = {"application/json", "application/xml"})
   public ResponseEntity<List<UserResponse>> getAllUsers(@RequestBody UserRequest request) {
     List<UserResponse> users = userService.getAllUsers(request);
     return ResponseEntity.ok(users);
