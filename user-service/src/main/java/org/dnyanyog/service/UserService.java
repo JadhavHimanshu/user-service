@@ -20,6 +20,8 @@ public interface UserService {
 
   public UserResponse deleteByuserId(Long userId);
 
+  // public UserDetails loadUserByUsername(String username);
+
   public boolean validateUser(String userName, String password);
 
   public boolean changePassword(String userName, String currentPassword, String newPassword);

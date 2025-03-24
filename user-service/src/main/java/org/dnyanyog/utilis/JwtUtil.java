@@ -3,6 +3,9 @@ package org.dnyanyog.utilis;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class JwtUtil {
 
   @Value("${jwt.secret}")
-  private static String secretKey;
+  private String secretKey;
 
   public String extractUserName(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -30,7 +33,11 @@ public class JwtUtil {
   }
 
   private Claims extractAllClaims(String token) {
-    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    return Jwts.parserBuilder()
+        .setSigningKey(getSigningKey())
+        .build()
+        .parseClaimsJws(token)
+        .getBody();
   }
 
   private boolean isTokenExpired(String token) {
@@ -42,18 +49,23 @@ public class JwtUtil {
     return (extractedUsername.equals(username) && !isTokenExpired(token));
   }
 
-  public static String generateToken(String username) {
+  public String generateToken(String username) {
     Map<String, Object> claims = new HashMap<>();
     return createToken(claims, username);
   }
 
-  private static String createToken(Map<String, Object> claims, String subject) {
+  private String createToken(Map<String, Object> claims, String subject) {
     return Jwts.builder()
         .setClaims(claims)
         .setSubject(subject)
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-        .signWith(SignatureAlgorithm.HS256, secretKey)
+        .signWith(getSigningKey(), SignatureAlgorithm.HS256)
         .compact();
+  }
+
+  private Key getSigningKey() {
+    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    return Keys.hmacShaKeyFor(keyBytes);
   }
 }
