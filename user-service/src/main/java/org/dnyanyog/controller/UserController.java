@@ -7,11 +7,14 @@ import org.dnyanyog.dto.ChangePasswordRequest;
 import org.dnyanyog.dto.LoginRequest;
 import org.dnyanyog.dto.UserRequest;
 import org.dnyanyog.dto.UserResponse;
+import org.dnyanyog.entity.User;
+import org.dnyanyog.repositories.UserRepo;
 import org.dnyanyog.service.UserService;
 import org.dnyanyog.utilis.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
   @Autowired private JwtUtil jwtUtil;
-
   @Autowired private UserService userService;
+  @Autowired UserRepo repo;
+  @Autowired BCryptPasswordEncoder bcryptpasswordEncoder;
 
   @PostMapping(
       path = "/api/v1/auth/user",
@@ -45,24 +49,22 @@ public class UserController {
 
   @PostMapping("/api/v1/auth/login")
   public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-    System.out.println("Received Request: " + loginRequest);
-
-    boolean isValid =
-        userService.validateUser(loginRequest.getUserName(), loginRequest.getPassword());
-
-    if (isValid) {
-      try {
-        String token = jwtUtil.generateToken(loginRequest.getUserName());
-        System.out.println("Generated Token: " + token);
-        return ResponseEntity.ok().body(token);
-      } catch (JwtException e) {
-        System.err.println("JWT Token Generation Error: " + e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body("Error generating token. Please try again.");
-      }
-    } else {
-      System.err.println("Invalid Credentials for User: " + loginRequest.getUserName());
+    System.out.println("Received Login Request: " + loginRequest);
+    User user =
+        repo.findByUserName(loginRequest.getUserName())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    if (!bcryptpasswordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+      System.err.println("Invalid Password for User: " + loginRequest.getUserName());
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    }
+    try {
+      String token = jwtUtil.generateToken(user.getUserName());
+      System.out.println("Generated Token: " + token);
+      return ResponseEntity.ok((token));
+    } catch (JwtException e) {
+      System.err.println("JWT Token Generation Error: " + e.getMessage());
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body("Error generating token. Please try again.");
     }
   }
 

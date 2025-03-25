@@ -11,12 +11,15 @@ import org.dnyanyog.mapper.UserMapper;
 import org.dnyanyog.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @Configuration
 public class UserServiceImpl implements UserService {
   @Autowired UserRepo repo;
+  @Lazy @Autowired private PasswordEncoder passwordEncoder;
 
   @Override
   public UserResponse addOrUpdateUser(@Valid UserRequest request) {
@@ -30,6 +33,7 @@ public class UserServiceImpl implements UserService {
               saveUser, ResponseCode.Update_User.getCode(), ResponseCode.Add_User.getMessage());
     } else {
       User user = UserMapper.toEntity(request);
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
       User saveUser = repo.save(user);
       response =
           UserMapper.toDto(

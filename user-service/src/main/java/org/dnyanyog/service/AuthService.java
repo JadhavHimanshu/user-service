@@ -20,13 +20,13 @@ public class AuthService {
   private final String SECRET_KEY = "YoxN5n0EtIWL7n0t85qwQefmiOsrFxonpfjwF8uvGvE=";
   private final long EXPIRATION_TIME = 86400000;
 
-  public String getSecretKey() { // ✅ Add this method to expose SECRET_KEY
+  public String getSecretKey() {
     return SECRET_KEY;
   }
 
   public String generateToken(User user) {
     return Jwts.builder()
-        .setSubject(user.getUserName()) // Only username in JWT
+        .setSubject(user.getUserName())
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
@@ -37,9 +37,9 @@ public class AuthService {
     Optional<User> user = userRepository.findByUserName(username);
 
     if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-      return Optional.of(user.get()); // Return authenticated user
+      return Optional.of(user.get());
     }
 
-    return Optional.empty(); // User not found or incorrect password
+    return Optional.empty();
   }
 }
