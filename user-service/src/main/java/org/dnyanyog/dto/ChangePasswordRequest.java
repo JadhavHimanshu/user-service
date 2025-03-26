@@ -4,16 +4,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChangePasswordRequest {
-  // @NotBlank(message = "UserName is mandatory")
   private String userName;
 
-  // @NotBlank(message = "Current password is mandatory")
   private String password;
 
-  // @NotBlank(message = "New password is mandatory")
   private String newPassword;
-
-  //  @NotBlank(message = "Confirm password is mandatory")
   private String confirmPassword;
 
   public String getUserName() {
