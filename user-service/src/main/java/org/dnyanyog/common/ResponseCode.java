@@ -8,8 +8,8 @@ public enum ResponseCode {
   User_Not_Found("User Not Found ", "404"),
   Sucess("Login Successful", "200"),
   FAILURE("Invalid Username or Password", "404"),
-  PASSWORD_RESET("Password Reset Sucessfully", "404");
-
+  PASSWORD_RESET("Password Reset Sucessfully", "200"),
+  Password_RESET_FAIL("Password Fail to Update", "404");
   private final String code;
   private final String message;
 
