@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
   @Autowired private JwtUtil jwtUtil;
   @Autowired private UserService userService;
-  @Autowired UserRepo repo;
+  @Autowired UserRepo userrepo;
   @Autowired BCryptPasswordEncoder bcryptpasswordEncoder;
 
   @PostMapping(
@@ -51,7 +51,8 @@ public class UserController {
   public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
     System.out.println("Received Login Request: " + loginRequest);
     User user =
-        repo.findByUserName(loginRequest.getUserName())
+        userrepo
+            .findByUserName(loginRequest.getUserName())
             .orElseThrow(() -> new RuntimeException("User not found"));
     if (!bcryptpasswordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
       System.err.println("Invalid Password for User: " + loginRequest.getUserName());
