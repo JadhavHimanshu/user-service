@@ -34,6 +34,7 @@ public class UserController {
   @Autowired private UserService userService;
   @Autowired UserRepo userrepo;
   @Autowired BCryptPasswordEncoder bcryptpasswordEncoder;
+
   @CrossOrigin(origins = "http://localhost:5173")
   @PostMapping(
       path = "/api/v1/auth/user",
@@ -46,6 +47,7 @@ public class UserController {
       return userService.addOrUpdateUser(request);
     }
   }
+
   @CrossOrigin(origins = "http://localhost:5173")
   @PostMapping("/api/v1/auth/login")
   public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
@@ -68,12 +70,14 @@ public class UserController {
           .body("Error generating token. Please try again.");
     }
   }
+
   @CrossOrigin(origins = "http://localhost:5173")
   @GetMapping(path = "/api/v1/auth/user_seacrh/{userId}")
   public ResponseEntity<UserResponse> searchCandidate(@Valid @PathVariable Long userId) {
     UserResponse response = userService.findByuserId(userId);
     return ResponseEntity.ok(response);
   }
+
   @CrossOrigin(origins = "http://localhost:5173")
   @PostMapping("/api/v1/auth/change_password")
   public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
