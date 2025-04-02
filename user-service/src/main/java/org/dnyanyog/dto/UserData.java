@@ -35,7 +35,7 @@ public class UserData {
       message = "Password expiry must be in YYYY-MM-DD format")
   private String passwordExpiry;
 
-  @NotBlank(message = " Role is mandatory")
+  @NotBlank(message = "Role is mandatory")
   private String userRole;
 
   @NotBlank(message = "User Status is mandatory")
