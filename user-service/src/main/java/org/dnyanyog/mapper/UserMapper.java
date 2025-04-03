@@ -16,7 +16,8 @@ public class UserMapper {
         .setUserStatus(userRequest.getUserStatus())
         .setTenant(userRequest.getTenant())
         .setTenantId(userRequest.getTenantId())
-        .setDepartment(userRequest.getDepartment());
+        .setDepartment(userRequest.getDepartment())
+        .setUserRole(userRequest.getUserRole());
   }
 
   public static UserResponse toDto(User user, String code, String message) {
@@ -32,6 +33,7 @@ public class UserMapper {
     response.setTenant(user.getTenant());
     response.setDepartment(user.getDepartment());
     response.setTenantId(user.getTenantId());
+    response.setCode(code);
     return response;
   }
 }
