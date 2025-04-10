@@ -48,7 +48,23 @@ public class UserServiceController {
   @Test
   public void updateUser() throws Exception {
     RequestBuilder requestBuilder =
-        MockMvcRequestBuilders.post("")
+        MockMvcRequestBuilders.post("\r\n"
+        		+ "  \r\n"
+        		+ "{\r\n"
+        		+ "  \"userId\": 101,\r\n"
+        		+ "  \"name\": \"Soham Bhor \",\r\n"
+        		+ "  \"userName\": \"soham123\",\r\n"
+        		+ "  \"password\": \"SecurePass@123\",\r\n"
+        		+ "  \"confirmPassword\": \"SecurePass@123\",\r\n"
+        		+ "  \"passswordExpiry\": \"2025-12-31\",\r\n"
+        		+ "  \"userRole\": \"ADMIN\",\r\n"
+        		+ "  \"userStatus\": \"ACTIVE\", \r\n"
+        		+ "  \"tenant\" : \"Java\",\r\n"
+        		+ "  \"department\": \"IT\",\r\n"
+        		+ "  \"tenantId\": \"TEN1345\"\r\n"
+        		+ "\r\n"
+        		+ "}\r\n"
+        		+ "")
             .content("")
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON);
@@ -64,7 +80,7 @@ public class UserServiceController {
   @Test
   public void serchByID() throws Exception {
     RequestBuilder requestBuilder =
-        MockMvcRequestBuilders.get("/api/v1/auth/user_seacrh/{userId)}");
+        MockMvcRequestBuilders.get("/api/v1/auth/user_seacrh/12");
     mockMvc
         .perform(requestBuilder)
         .andExpect(jsonPath("$.code").value(ResponseCode.Search_User.getCode()))
@@ -86,7 +102,7 @@ public class UserServiceController {
   public void getAllUsers() throws Exception {
     RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/auth/users");
     mockMvc
-        .perform(requestBuilder).andExpect(jsonPath("$.code")))
+        .perform(requestBuilder).andExpect(jsonPath("$.code"))) 
         .andExpect(jsonPath("$code").value(ResponseCode.Search_User.getCode()))
         .andExpect(jsonPath("$.message").value(ResponseCode.Search_User.getMessage()))
         .andReturn();
@@ -100,5 +116,10 @@ public class UserServiceController {
         .perform(requestBuilder)
       .andExpect(jsonPath("$code").value(ResponseCode.Delete_User.getCode())).andExpect(JsonPath("$message").value(ResponseCode.Delete_User.getMessage())).andReturn();
  
-  }
+  } 
+   @Test 
+    public void login()throws Exception {  RequestBuilder requestBuilder =
+    MockMvcRequestBuilders.delete("/api/v1/auth/login");
+    	 
+    }
 }
