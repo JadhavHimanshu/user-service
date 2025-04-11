@@ -1,11 +1,14 @@
 package org.dnyanyog.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ChangePasswordRequest {
+  @NotBlank(message = "username is Mandatory")
   private String userName;
 
+  @NotBlank(message = "password is mandaotry")
   private String password;
 
   private String newPassword;
