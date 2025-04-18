@@ -71,9 +71,7 @@ public class UserServiceImpl implements UserService {
     Optional<User> userData = this.repo.findByuserId(userId);
     if (userData.isPresent()) {
       return UserMapper.toDto(
-          userData.get(),
-          ResponseCode.Search_User.getMessage(),
-          ResponseCode.Search_User.getCode());
+          userData.get(), ResponseCode.User_Found.getMessage(), ResponseCode.User_Found.getCode());
     }
     return null;
   }
