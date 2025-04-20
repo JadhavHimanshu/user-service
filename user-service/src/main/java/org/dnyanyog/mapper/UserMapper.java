@@ -17,7 +17,9 @@ public class UserMapper {
         .setTenant(userRequest.getTenant())
         .setTenantId(userRequest.getTenantId())
         .setDepartment(userRequest.getDepartment())
-        .setUserRole(userRequest.getUserRole());
+        .setUserRole(userRequest.getUserRole())
+        .setConfirmPassword(userRequest.getConfirmPassword())
+        .setNewPassword(userRequest.getNewPassword());
   }
 
   public static UserResponse toDto(User user, String code, String message) {
@@ -32,6 +34,8 @@ public class UserMapper {
     response.setUserStatus(user.getUserStatus());
     response.setTenant(user.getTenant());
     response.setDepartment(user.getDepartment());
+    response.setConfirmPassword(user.getConfirmPassword());
+    response.setNewPassword(user.getNewPassword());
     response.setTenantId(user.getTenantId());
     response.setCode(code);
     return response;

@@ -153,16 +153,18 @@ public class User {
     return confirmPassword;
   }
 
-  public void setConfirmPassword(String confirmPassword) {
+  public User setConfirmPassword(String confirmPassword) {
     this.confirmPassword = confirmPassword;
+    return this;
   }
 
   public String getNewPassword() {
     return newPassword;
   }
 
-  public void setNewPassword(String newPassword) {
+  public User setNewPassword(String newPassword) {
     this.newPassword = newPassword;
+    return this;
   }
 
   public static User getInstance() {
